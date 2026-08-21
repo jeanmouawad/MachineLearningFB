@@ -1,0 +1,251 @@
+/* System / local fonts only — no Google Fonts network request */
+.loginPage {
+    display: grid;
+    grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+    min-height: 100vh;
+    width: 100%;
+    background: #ffffff;
+    font-family: 'Segoe UI', system-ui, sans-serif;
+}
+
+.brandPanel {
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 3rem;
+    background:
+        radial-gradient(circle at 18% 18%, rgba(241, 142, 30, 0.22), transparent 42%),
+        linear-gradient(165deg, #01717a 0%, #015a61 52%, #013d42 100%);
+    color: #ffffff;
+}
+
+.orbOne,
+.orbTwo {
+    position: absolute;
+    border-radius: 50%;
+    pointer-events: none;
+}
+
+.orbOne {
+    width: 280px;
+    height: 280px;
+    right: -80px;
+    top: -60px;
+    background: rgba(241, 142, 30, 0.18);
+}
+
+.orbTwo {
+    width: 220px;
+    height: 220px;
+    left: -70px;
+    bottom: -50px;
+    background: rgba(255, 255, 255, 0.08);
+}
+
+.brandContent {
+    position: relative;
+    z-index: 1;
+    max-width: 440px;
+}
+
+.logoCard {
+    display: inline-flex;
+    background: #ffffff;
+    border-radius: 16px;
+    padding: 0.75rem 1rem;
+    margin-bottom: 2rem;
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.18);
+}
+
+.brandTitle {
+    margin: 0 0 1rem;
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    font-size: clamp(2rem, 3vw, 2.75rem);
+    font-weight: 700;
+    line-height: 1.15;
+    color: #ffffff;
+}
+
+.brandCopy {
+    margin: 0 0 1rem;
+    font-size: 1.05rem;
+    line-height: 1.65;
+    color: rgba(255, 255, 255, 0.88);
+    max-width: 38ch;
+}
+
+.privacyNote {
+    margin: 0 0 2.5rem;
+    padding: 0.85rem 1rem;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    font-size: 0.92rem;
+    line-height: 1.55;
+    color: rgba(255, 255, 255, 0.9);
+    max-width: 40ch;
+}
+
+.partner {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.partnerLabel {
+    font-size: 0.8rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.75);
+}
+
+.unicefLogo {
+    height: 36px;
+    width: auto;
+    display: block;
+    filter: brightness(0) invert(1);
+}
+
+.formPanel {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2.5rem 2rem;
+    background: #f7fbfb;
+}
+
+.formInner {
+    width: 100%;
+    max-width: 420px;
+}
+
+.mobileBrand {
+    display: none;
+}
+
+.formEyebrow {
+    margin: 0 0 0.5rem;
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #01717a;
+}
+
+.formTitle {
+    margin: 0 0 0.5rem;
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    font-size: 2rem;
+    font-weight: 700;
+    color: #13393c;
+}
+
+.formLead {
+    margin: 0 0 1rem;
+    color: #4a6366;
+    line-height: 1.55;
+}
+
+.formPrivacy {
+    margin: 0 0 2rem;
+    padding: 0.85rem 1rem;
+    border-radius: 10px;
+    background: #e6f4f5;
+    color: #35585c;
+    font-size: 0.9rem;
+    line-height: 1.55;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+}
+
+.error {
+    margin: 0;
+    padding: 0.75rem 1rem;
+    border-radius: 10px;
+    background: #fdecec;
+    color: #9b1c1c;
+    font-size: 0.95rem;
+    line-height: 1.4;
+}
+
+.submit {
+    min-height: 48px;
+    cursor: pointer;
+}
+
+.hint {
+    margin-top: 1.75rem;
+    padding: 1rem 1.1rem;
+    border-radius: 12px;
+    background: #e6f4f5;
+    color: #35585c;
+    font-size: 0.92rem;
+    line-height: 1.5;
+}
+
+.hintLabel {
+    display: block;
+    margin-bottom: 0.25rem;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #01717a;
+}
+
+.hint strong {
+    color: #01717a;
+}
+
+.dot {
+    margin: 0 0.45rem;
+    color: #8aa3a6;
+}
+
+@media only screen and (max-width: 900px) {
+    .loginPage {
+        grid-template-columns: 1fr;
+    }
+
+    .brandPanel {
+        display: none;
+    }
+
+    .formPanel {
+        min-height: 100vh;
+        padding: 1.5rem 1.25rem 2rem;
+        background: #ffffff;
+    }
+
+    .mobileBrand {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1rem;
+        margin-bottom: 1.75rem;
+        padding-bottom: 1.25rem;
+        border-bottom: 1px solid #e6f4f5;
+    }
+
+    .unicefLogoMobile {
+        height: 28px;
+        width: auto;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .submit,
+    .form :global(.MuiOutlinedInput-root) {
+        transition: none;
+    }
+}

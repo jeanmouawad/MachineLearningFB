@@ -7,7 +7,7 @@ import Workspace from '../../workflow/ImageWorkspace/Workspace';
 import { ThemeProvider } from '@mui/material/styles';
 import { useVariant } from '../../util/variant';
 import Fab from '@mui/material/Fab';
-import { theme } from '@genai-fi/base';
+import { theme } from '../../theme/theme';
 import SettingsDialog from '../SettingsDialog/SettingsDialog';
 import { useSetAtom } from 'jotai';
 import { feedbackAtom } from '@genaitm/state';

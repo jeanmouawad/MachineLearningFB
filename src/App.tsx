@@ -15,6 +15,8 @@ import { HTML5Backend } from 'react-dnd-html5-backend';
 import { StyledEngineProvider } from '@mui/material/styles';
 import About from './views/About/About';
 import Home from './views/Home/Home';
+import Login from './views/Login/Login';
+import AuthGuard from './components/AuthGuard/AuthGuard';
 
 function ErrorComponent() {
     const error = useRouteError();
@@ -28,21 +30,14 @@ function ErrorComponent() {
         );
     }
 
+    if (import.meta.env.DEV) {
+        console.error(error);
+    }
+
     return (
         <section className="errorView">
             <h1>Something went wrong</h1>
-            <p>
-                Please report this issue to{' '}
-                <a
-                    href="https://github.com/knicos/genai-tm/issues"
-                    target="_blank"
-                    rel="noreferrer"
-                >
-                    our project on github
-                </a>{' '}
-                if you have time, including the information below. Refresh the page to try again.
-            </p>
-            <p className="code">{JSON.stringify(error)}</p>
+            <p>Refresh the page to try again. If the problem continues, contact the demo administrator.</p>
         </section>
     );
 }
@@ -54,13 +49,8 @@ export const routes = createRoutesFromElements(
         hydrateFallbackElement={<div />}
     >
         <Route
-            index
-            element={
-                <Navigate
-                    replace
-                    to="/home"
-                />
-            }
+            path="login"
+            element={<Login />}
         />
         <Route
             path="deploy/p/:code"
@@ -74,18 +64,29 @@ export const routes = createRoutesFromElements(
             path="input/:code"
             lazy={() => import('./views/Input/Input')}
         />
-        <Route
-            path="about"
-            element={<About />}
-        />
-        <Route
-            path="home"
-            element={<Home />}
-        />
-        <Route
-            path=":kind/:variant"
-            lazy={() => import('./views/General/General')}
-        />
+        <Route element={<AuthGuard />}>
+            <Route
+                index
+                element={
+                    <Navigate
+                        replace
+                        to="/home"
+                    />
+                }
+            />
+            <Route
+                path="about"
+                element={<About />}
+            />
+            <Route
+                path="home"
+                element={<Home />}
+            />
+            <Route
+                path=":kind/:variant"
+                lazy={() => import('./views/General/General')}
+            />
+        </Route>
     </Route>
 );
 const defaultRouter = createBrowserRouter(routes);

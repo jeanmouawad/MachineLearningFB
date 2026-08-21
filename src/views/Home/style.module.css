@@ -13,10 +13,27 @@
     position: relative;
 }
 
-.lang {
+.topBar {
     position: absolute;
     top: 0.5rem;
     right: 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.lessonsButton {
+    text-transform: none;
+    font-weight: 600;
+    gap: 0.35rem;
+}
+
+.comingSoon {
+    margin-left: 0.35rem;
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    opacity: 0.85;
 }
 
 @media only screen and (max-width: 600px) {
@@ -37,27 +54,72 @@
 .header {
     display: flex;
     align-items: center;
-    gap: 1rem;
+    gap: 2rem;
     flex-wrap: wrap;
     padding: 0.5rem;
+    justify-content: center;
+}
+
+.headerBrands {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.25rem;
+    flex-shrink: 0;
+}
+
+.unicefPartner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    padding-top: 0.25rem;
+}
+
+.partnerLabel {
+    font-size: 0.75rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #01717a;
+    font-weight: 600;
+}
+
+.unicefLogo {
+    height: 32px;
+    width: auto;
+    display: block;
 }
 
 .header h1 {
     font-size: 3rem;
     margin: 0;
     margin-bottom: 1rem;
+    color: #01717a;
 }
 
 .header h2 {
     font-size: 1.2rem;
     margin: 0;
     font-weight: normal;
+    color: #35585c;
+}
+
+.privacyNotice {
+    margin: 1rem 0 0;
+    padding: 0.85rem 1rem;
+    border-radius: 10px;
+    background: #e6f4f5;
+    color: #35585c;
+    font-size: 0.92rem;
+    line-height: 1.55;
+    max-width: 52ch;
 }
 
 .headerColumn {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
+    max-width: 560px;
 }
 
 .cards {

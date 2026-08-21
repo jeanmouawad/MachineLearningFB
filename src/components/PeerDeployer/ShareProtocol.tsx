@@ -4,7 +4,14 @@ import { Connection } from '@genai-fi/base';
 import ClassifierApp, { TeachableModel } from '@genai-fi/classifier';
 import { useEffect, useRef } from 'react';
 import { BehaviourType } from '../../workflow/Behaviour/Behaviour';
-import { behaviourState, classState, IClassification, sessionCode, shareSamples } from '@genaitm/state';
+import {
+    behaviourState,
+    classState,
+    IClassification,
+    sessionCode,
+    sessionPassword,
+    shareSamples,
+} from '@genaitm/state';
 import { useTeachableModel } from '@genaitm/util/TeachableModel';
 import { useAtomValue } from 'jotai';
 import { ModelContents } from '@genaitm/workflow/ImageWorkspace/saver';
@@ -13,23 +20,30 @@ interface CacheState {
     model?: TeachableModel;
     behaviours?: BehaviourType[];
     rawSamples?: IClassification[];
+    password: string;
 }
 
 export default function ShareProtocol() {
     const includeSamples = useAtomValue(shareSamples);
     const classes = useAtomValue(classState);
     const code = useAtomValue(sessionCode);
+    const password = useAtomValue(sessionPassword);
     const { model } = useTeachableModel();
     const behaviours = useAtomValue(behaviourState);
-    const cache = useRef<CacheState>({ model, behaviours });
+    const cache = useRef<CacheState>({ model, behaviours, password });
     const blob = useRef<ModelContents | undefined>(undefined);
 
     cache.current.model = model;
     cache.current.behaviours = behaviours;
     cache.current.rawSamples = includeSamples ? classes : undefined;
+    cache.current.password = password;
 
     usePeerData(async (data: EventProtocol, conn: Connection<EventProtocol>) => {
         if (data.event === 'request') {
+            // Require the session deploy password — previously `?p=` was cosmetic only.
+            if (!data.password || data.password !== cache.current.password) {
+                return;
+            }
             if (blob.current === undefined && cache.current.model) {
                 const app = new ClassifierApp(
                     cache.current.model.variant,

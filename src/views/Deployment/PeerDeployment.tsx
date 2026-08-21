@@ -9,8 +9,7 @@ import { useTranslation } from 'react-i18next';
 import { useAtomValue } from 'jotai';
 import { fatalWebcam } from '@genaitm/state';
 import AlertModal from '@genaitm/components/AlertModal';
-import { Privacy, QRCode } from '@genai-fi/base';
-import gitInfo from '../../generatedGitInfo.json';
+import { QRCode } from '@genai-fi/base';
 import RemoteModel from './RemoteModel';
 import { TeachableModel } from '@genai-fi/classifier';
 import { BehaviourType } from '@genaitm/workflow/Behaviour/Behaviour';
@@ -98,11 +97,6 @@ export function Component() {
                 />
             )}
 
-            <Privacy
-                position="topRight"
-                appName="tm"
-                tag={gitInfo.gitTag || 'notag'}
-            />
         </>
     );
 }

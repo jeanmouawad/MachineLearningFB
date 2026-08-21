@@ -1,6 +1,7 @@
 import { useParams } from 'react-router-dom';
 import { ThemeProvider } from '@mui/material/styles';
-import { theme, useRandom } from '@genai-fi/base';
+import { useRandom } from '@genai-fi/base';
+import { theme } from '../../theme/theme';
 import ConnectionStatus from '@genaitm/components/ConnectionStatus/ConnectionStatus';
 import { SampleProtocol } from './SampleProtocol';
 import { Peer } from '@genai-fi/base/hooks/peer';

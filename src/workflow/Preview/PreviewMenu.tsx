@@ -5,13 +5,12 @@ import MenuItem from '@mui/material/MenuItem';
 import MenuIcon from '@mui/icons-material/Menu';
 import { useTranslation } from 'react-i18next';
 import { useVariant } from '../../util/variant';
-import { useAtomValue, useSetAtom } from 'jotai';
-import { fatalWebcam, sessionCode, shareModel } from '@genaitm/state';
+import { useAtomValue } from 'jotai';
+import { fatalWebcam } from '@genaitm/state';
 import { ListItemIcon, ListItemText } from '@mui/material';
 import ShareIcon from '@mui/icons-material/Share';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import InsertChartOutlinedIcon from '@mui/icons-material/InsertChartOutlined';
-import LinkIcon from '@mui/icons-material/Link';
 
 interface Props {
     disabled?: boolean;
@@ -21,11 +20,9 @@ interface Props {
 }
 
 export default function PreviewMenu({ disabled, onExport, onClone, onSidebar }: Props) {
-    const { namespace, usep2p, allowModelSharing, modelVariant } = useVariant();
+    const { namespace, usep2p, allowModelSharing } = useVariant();
     const { t } = useTranslation(namespace);
     const fatal = useAtomValue(fatalWebcam);
-    const setShared = useSetAtom(shareModel);
-    const code = useAtomValue(sessionCode);
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
     const open = Boolean(anchorEl);
     const handleClick = (event: React.MouseEvent<HTMLElement>) => {
@@ -81,32 +78,6 @@ export default function PreviewMenu({ disabled, onExport, onClone, onSidebar }: 
                     </ListItemIcon>
                     <ListItemText>{t('model.actions.export')}</ListItemText>
                 </MenuItem>
-                {modelVariant === 'image' && (
-                    <MenuItem
-                        disabled={disabled || !allowModelSharing}
-                        onClick={() => {
-                            handleClose();
-                            setShared(true);
-                            // Allow some time for the sharing state to propagate before opening the new window
-                            // This should be done properly.
-                            setTimeout(
-                                () =>
-                                    window.open(
-                                        `https://spoof.gen-ai.fi/teacher/?origin=remote&model=${encodeURIComponent(
-                                            `${import.meta.env.VITE_APP_API}/model/${code}/project.zip`
-                                        )}&view=connect&overlay=share`,
-                                        '_blank'
-                                    ),
-                                500
-                            );
-                        }}
-                    >
-                        <ListItemIcon>
-                            <LinkIcon />
-                        </ListItemIcon>
-                        <ListItemText>{t('model.actions.bm')}</ListItemText>
-                    </MenuItem>
-                )}
 
                 <MenuItem
                     disabled={disabled || !onSidebar}

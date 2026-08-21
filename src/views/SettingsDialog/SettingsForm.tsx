@@ -16,7 +16,7 @@ import { useTranslation } from 'react-i18next';
 import { VariantConfiguration, VARIANTS } from '../General/General';
 import style from './style.module.css';
 import _settings from '../General/configuration.json';
-import { LANGS } from '@genaitm/components/AppBar/AppBar';
+import { LANGS } from '@genaitm/config/languages';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 export const DEFAULTS = _settings as VariantConfiguration;
@@ -90,6 +90,7 @@ export default function SettingsForm({ state, setState }: Props) {
                             <MenuItem
                                 key={ix}
                                 value={lng.name}
+                                disabled={lng.disabled}
                             >
                                 {lng.label}
                             </MenuItem>

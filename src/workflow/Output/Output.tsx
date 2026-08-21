@@ -52,10 +52,10 @@ export default function Output(props: Props) {
                 !fatal && (
                     <a
                         className={style.deployLink}
-                        href={`/deploy/${usep2p ? 'p' : 'b'}/${code}?p=${pwd}&qr=${enableCollaboration ? '1' : '0'}`}
+                        href={`/deploy/${usep2p ? 'p' : 'b'}/${code}?qr=${enableCollaboration ? '1' : '0'}#p=${encodeURIComponent(pwd)}`}
                         target="_blank"
                         aria-label={t('output.aria.expand')}
-                        rel="noreferrer"
+                        rel="noopener noreferrer"
                         onClick={doDeployClick}
                     >
                         <OpenInNewIcon />

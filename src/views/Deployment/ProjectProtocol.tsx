@@ -48,9 +48,12 @@ export default function ProjectProtocol({ code, onModel, onBehaviours, onError, 
 
     useEffect(() => {
         if (ready && send) {
-            send({ event: 'request', channel: code, password: params.get('p') || undefined });
+            // Prefer hash fragment (#p=) so the password is less likely to appear in server/CDN logs.
+            const hashParams = new URLSearchParams(window.location.hash.replace(/^#/, ''));
+            const password = hashParams.get('p') || params.get('p') || undefined;
+            send({ event: 'request', channel: code, password });
         }
-    }, [ready, send]);
+    }, [ready, send, code, params]);
 
     return null;
 }

@@ -1,6 +1,6 @@
 {
     "app": {
-        "title": "Teachable Machine",
+        "title": "AI Teachable Machine",
         "about": "About",
         "save": "Save",
         "load": "Open",
@@ -16,7 +16,12 @@
         "teachingMaterials": "Teaching Materials",
         "selectModel": "What do you want to classify?",
         "enableUSB": "Use USB device",
-        "subtitle": "Create classifiers with your own data, no coding required"
+        "subtitle": "Create classifiers with your own data, no coding required",
+        "privacyNotice": "Closed-source project. All information is private and not public. This tool can be deployed offline on computers with no internet connection for privacy.",
+        "loginBrandCopy": "A no-code AI machine learning classroom tool. Train simple image, pose, gesture, and speech classifiers in the browser — your samples stay on this device unless you choose to share them.",
+        "preparedFor": "Prepared for",
+        "lessons": "Lessons",
+        "comingSoon": "Coming soon"
     },
     "load": {
         "title": "Open Classifier",

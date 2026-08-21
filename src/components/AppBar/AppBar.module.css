@@ -11,7 +11,7 @@
     z-index: 2;
     position: static;
     box-shadow: none;
-    background: #444;
+    background: primary;
 }
 
 .toolbar {
@@ -45,15 +45,22 @@
 }
 
 .logo {
-    background: primary;
-    padding-left: 0.5rem;
-    padding-right: 0.5rem;
-    gap: 0.8rem;
+    background: transparent;
+    padding: 0.35rem 0.75rem;
     display: flex;
     align-items: center;
-    color: white;
     text-decoration: none;
     align-self: stretch;
+    flex-shrink: 0;
+}
+
+.logoImage {
+    border-radius: 6px;
+}
+
+.logoutButton {
+    flex-shrink: 0;
+    margin-left: 0.25rem;
 }
 
 .logo h1 {
@@ -89,6 +96,19 @@
     }
 
     .logo {
+        padding: 0.25rem 0.5rem;
+    }
+
+    .logoutButton :global(.MuiButton-startIcon) {
+        margin: 0;
+    }
+
+    .logoutButton :global(.MuiButton-root) {
+        min-width: 0;
+        padding: 0.5rem;
+    }
+
+    .logoutButton :global(.MuiButton-root) span:not(.MuiButton-startIcon) {
         display: none;
     }
 }

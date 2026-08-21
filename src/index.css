@@ -1,15 +1,12 @@
 body {
     margin: 0;
-    /*font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;*/
-    font-family: 'Andika', sans-serif;
+    font-family: 'Segoe UI', Roboto, -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }
 
 #root {
-    background: #dee4e8;
+    background: #ffffff;
     position: absolute;
     top: 0;
     bottom: 0;
@@ -21,12 +18,12 @@ body {
 }
 
 :root {
-    --secondary: rgb(156, 39, 176);
-    --secondaryLight: #e996e9;
-    --primary: #008297;
-    --primary-dark: #016f80;
-    --paleBlue: #e8f0fe;
-    --dropShadow: #a4acbb;
+    --secondary: #f18e1e;
+    --secondaryLight: #f5b563;
+    --primary: #01717a;
+    --primary-dark: #015a61;
+    --paleBlue: #e6f4f5;
+    --dropShadow: #c5d8da;
 }
 
 code {
@@ -35,4 +32,22 @@ code {
 
 p {
     margin: 0;
+}
+
+.MuiDialogTitle-root {
+    border-bottom: 2px solid #01717a !important;
+    background: #e6f4f5 !important;
+}
+
+.MuiTooltip-tooltip,
+.MuiSpeedDialAction-staticTooltipLabel {
+    background: #01717a !important;
+}
+
+.MuiTooltip-arrow {
+    color: #01717a !important;
+}
+
+h1 {
+    color: #333333;
 }

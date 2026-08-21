@@ -2,16 +2,14 @@ import { useTranslation } from 'react-i18next';
 import style from './style.module.css';
 import Model from './Model';
 import { useState } from 'react';
-import { Checkbox, FormControlLabel } from '@mui/material';
-import { LangSelect, Privacy } from '@genai-fi/base';
-import gitInfo from '../../generatedGitInfo.json';
-import { theme } from '@genai-fi/base';
+import { Button, Checkbox, FormControlLabel } from '@mui/material';
+import MenuBookIcon from '@mui/icons-material/MenuBook';
+import { theme } from '../../theme/theme';
 import { ThemeProvider } from '@mui/material/styles';
-import GitHubIcon from '@mui/icons-material/GitHub';
-import SchoolIcon from '@mui/icons-material/School';
-import LinkButton from './LinkButton';
-import { LANGS } from '@genaitm/components/AppBar/AppBar';
 import RecordVoiceOverIcon from '@mui/icons-material/RecordVoiceOver';
+import Logo from '../../components/Logo/Logo';
+import LogoutButton from '../../components/LogoutButton/LogoutButton';
+import AppLanguageSelect from '../../components/LanguageSelect/AppLanguageSelect';
 
 export default function Home() {
     const { t } = useTranslation('image_adv');
@@ -22,36 +20,37 @@ export default function Home() {
     return (
         <ThemeProvider theme={theme}>
             <main className={style.homeContainer}>
-                <div className={style.lang}>
-                    <LangSelect
-                        languages={LANGS}
-                        ns="image_adv"
-                    />
+                <div className={style.topBar}>
+                    <Button
+                        variant="outlined"
+                        color="primary"
+                        startIcon={<MenuBookIcon />}
+                        disabled
+                        className={style.lessonsButton}
+                        aria-label={`${t('app.lessons')} — ${t('app.comingSoon')}`}
+                    >
+                        {t('app.lessons')}
+                        <span className={style.comingSoon}>{t('app.comingSoon')}</span>
+                    </Button>
+                    <AppLanguageSelect />
+                    <LogoutButton color="primary" />
                 </div>
                 <div className={style.header}>
-                    <img
-                        src="/logo192.png"
-                        alt="GenAI logo"
-                        width={192}
-                        height={192}
-                    />
+                    <div className={style.headerBrands}>
+                        <Logo height={120} />
+                        <div className={style.unicefPartner}>
+                            <span className={style.partnerLabel}>{t('app.preparedFor')}</span>
+                            <img
+                                src="/unicef-logo.svg"
+                                alt="UNICEF"
+                                className={style.unicefLogo}
+                            />
+                        </div>
+                    </div>
                     <div className={style.headerColumn}>
                         <h1>{t('app.title')}</h1>
                         <h2>{t('app.subtitle')}</h2>
-                        <div className={style.buttons}>
-                            <LinkButton
-                                href="https://gen-ai.fi/en/materials/classifier-unit"
-                                startIcon={<SchoolIcon />}
-                            >
-                                {t('app.teachingMaterials')}
-                            </LinkButton>
-                            <LinkButton
-                                href="https://github.com/knicos/genai-tm"
-                                startIcon={<GitHubIcon />}
-                            >
-                                {t('app.github')}
-                            </LinkButton>
-                        </div>
+                        <p className={style.privacyNotice}>{t('app.privacyNotice')}</p>
                     </div>
                 </div>
                 <div className={style.selectGroup}>
@@ -94,11 +93,6 @@ export default function Home() {
                         </div>
                     )}
                 </div>
-                <Privacy
-                    position="bottomLeft"
-                    appName="tm"
-                    tag={gitInfo.gitTag || 'notag'}
-                />
             </main>
         </ThemeProvider>
     );

@@ -71,10 +71,14 @@ export default function Behaviour({ classLabel, behaviour, setBehaviour, index, 
                 root.innerHTML = items.html;
                 const imgElements = root.getElementsByTagName('img');
                 if (imgElements.length > 0) {
-                    patchBehaviour({
-                        image: { uri: imgElements[0].src },
-                    });
-                    setValue('image');
+                    const { isSafeImageUri } = await import('@genaitm/util/projectUrl');
+                    const uri = imgElements[0].src;
+                    if (isSafeImageUri(uri)) {
+                        patchBehaviour({
+                            image: { uri },
+                        });
+                        setValue('image');
+                    }
                 }
             } else {
                 const types = Array.from<DataTransferItem>(items.items).map((i) => i.type);

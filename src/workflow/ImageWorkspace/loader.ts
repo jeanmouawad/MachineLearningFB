@@ -5,6 +5,7 @@ import { useAtom, useSetAtom } from 'jotai';
 import { useSearchParams } from 'react-router-dom';
 import ClassifierApp, { TeachableModel } from '@genai-fi/classifier';
 import { ISample } from '@genai-fi/classifier/main/ClassifierApp';
+import { mapProjectToUrl } from '@genaitm/util/projectUrl';
 
 interface Project {
     id?: string;
@@ -32,12 +33,7 @@ interface Props {
 }
 
 function mapToURL(project: string) {
-    if (project.startsWith('http')) {
-        return project;
-    }
-    if (project.length === 8 && /^[a-z0-9]+$/i.test(project)) {
-        return `${import.meta.env.VITE_APP_API}/model/${project}/project.zip`;
-    }
+    return mapProjectToUrl(project);
 }
 
 export function ModelLoader({ onLoaded, onError }: Props) {

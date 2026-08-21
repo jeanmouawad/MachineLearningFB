@@ -33,6 +33,10 @@
             "rewrite": "index.html"
         },
         {
+            "route": "/login",
+            "rewrite": "index.html"
+        },
+        {
             "route": "/home",
             "rewrite": "index.html"
         },
@@ -40,5 +44,12 @@
             "route": "/settings",
             "rewrite": "index.html"
         }
-    ]
+    ],
+    "globalHeaders": {
+        "X-Content-Type-Options": "nosniff",
+        "Referrer-Policy": "no-referrer",
+        "X-Frame-Options": "DENY",
+        "Permissions-Policy": "camera=(self), microphone=(self), geolocation=(), payment=(), usb=(self)",
+        "Content-Security-Policy": "default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'; form-action 'self'; img-src 'self' data: blob:; media-src 'self' data: blob:; font-src 'self' data:; style-src 'self' 'unsafe-inline'; script-src 'self' 'wasm-unsafe-eval' 'unsafe-eval'; worker-src 'self' blob:; connect-src 'self' blob: data:; frame-src https://www.youtube.com https://player.vimeo.com;"
+    }
 }

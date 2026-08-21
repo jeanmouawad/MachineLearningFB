@@ -11,7 +11,7 @@ import {
     modelLoaded,
 } from '../state';
 import { useAtom, useSetAtom, useAtomValue } from 'jotai';
-import { useCallback, useEffect, useState, useRef } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { AudioExample, createModel, TeachableModel } from '@genai-fi/classifier';
 import { calculateModelStatistics } from './modelStats';
 import { getXAI, resetXAIDrawn, wasXAIDrawn } from './xaiCanvas';
@@ -133,52 +133,70 @@ export function useTeachableModel() {
     };
 }
 
-export function useModelCreator(variant: TMType) {
-    const [model, setModel] = useAtom(modelState);
-    const setLoaded = useSetAtom(modelLoaded);
-    const currentModelRef = useRef<TeachableModel | undefined>(model);
+type CachedModel = {
+    variant: TMType;
+    model: TeachableModel;
+    ready: Promise<boolean>;
+};
 
-    useEffect(() => {
-        currentModelRef.current = model;
-    }, [model]);
+let cachedModel: CachedModel | null = null;
 
-    // Create new model when variant changes
-    useEffect(() => {
-        setModel((old) => {
-            if (old?.variant === variant) return old;
-
-            setLoaded(false);
-
-            if (old) {
-                try {
-                    old.dispose();
-                } catch (error) {
-                    console.warn('Error disposing old model:', error);
-                }
+function disposeWhenReady(entry: CachedModel) {
+    entry.ready
+        .catch(() => false)
+        .finally(() => {
+            try {
+                entry.model.dispose();
+            } catch (error) {
+                console.warn('Error disposing model:', error);
             }
-
-            const newModel = createModel(variant);
-            newModel.ready().then((isReady) => {
-                if (isReady) {
-                    setLoaded(true);
-                }
-            });
-            return newModel;
         });
-    }, [variant, setModel, setLoaded]);
+}
 
-    // Cleanup on unmount
+function acquireModel(variant: TMType): CachedModel {
+    if (cachedModel?.variant === variant) {
+        return cachedModel;
+    }
+
+    if (cachedModel) {
+        disposeWhenReady(cachedModel);
+    }
+
+    const model = createModel(variant);
+    cachedModel = {
+        variant,
+        model,
+        ready: model.ready().catch((error) => {
+            console.error('Failed to load classifier', error);
+            return false;
+        }),
+    };
+    return cachedModel;
+}
+
+export function useModelCreator(variant: TMType) {
+    const setModel = useSetAtom(modelState);
+    const setLoaded = useSetAtom(modelLoaded);
+
     useEffect(() => {
-        return () => {
-            if (currentModelRef.current) {
-                try {
-                    currentModelRef.current.dispose();
-                } catch (error) {
-                    console.warn('Error disposing model on unmount:', error);
-                }
+        const next = acquireModel(variant);
+        let cancelled = false;
+
+        setModel(next.model);
+        if (!next.model.isReady()) {
+            setLoaded(false);
+        }
+
+        next.ready.then((isReady) => {
+            if (!cancelled && isReady) {
+                setLoaded(true);
             }
+        });
+
+        return () => {
+            cancelled = true;
         };
-    }, []);
+    }, [variant, setModel, setLoaded]);
 }
 export function useXAICanvas() {
     const model = useAtomValue(modelState);

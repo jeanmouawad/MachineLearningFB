@@ -3,8 +3,6 @@ import _settings from './configuration.json';
 import { useSearchParams, useParams } from 'react-router-dom';
 import { decompressFromEncodedURIComponent } from 'lz-string';
 import Classifier from './Classifier';
-import { Privacy } from '@genai-fi/base';
-import gitInfo from '../../generatedGitInfo.json';
 
 export type VARIANTS = keyof typeof _settings;
 export type VariantConfiguration = Record<VARIANTS, IVariantContext>;
@@ -35,11 +33,6 @@ export function Component() {
     return (
         <VariantContext.Provider value={merged}>
             <Classifier />
-            <Privacy
-                position="bottomLeft"
-                appName="tm"
-                tag={gitInfo.gitTag || 'notag'}
-            />
         </VariantContext.Provider>
     );
 }

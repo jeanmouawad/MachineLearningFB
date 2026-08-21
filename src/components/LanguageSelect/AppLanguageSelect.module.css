@@ -1,0 +1,31 @@
+.lang {
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+    color: #666;
+}
+
+.dark,
+.dark div {
+    color: #fff;
+}
+
+.dark svg {
+    color: #fff;
+}
+
+.dark option {
+    color: #000;
+}
+
+.select {
+    font-family: inherit;
+}
+
+.darkSelect:before {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.42);
+}
+
+.darkSelect:hover:before {
+    border-bottom: 2px solid rgba(255, 255, 255, 0.42) !important;
+}

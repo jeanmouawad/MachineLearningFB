@@ -36,6 +36,13 @@ export default function SampleProtocol() {
             }
         } else if (data.event === 'add_sample') {
             const sev = data as AddSampleEvent;
+            // Reject oversized payloads (DoS / memory exhaustion via peer data channel).
+            if (typeof sev.data !== 'string' || sev.data.length > 2_000_000) {
+                return;
+            }
+            if (!sev.data.startsWith('data:image/')) {
+                return;
+            }
             const newImage = await canvasFromURL(sev.data);
             if (sev.index === -1) {
                 setInput(newImage);
