@@ -1,4 +1,5 @@
 import { useCallback, useRef, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useVariant } from '../../util/variant';
 import SaveAltIcon from '@mui/icons-material/SaveAlt';
@@ -7,7 +8,9 @@ import style from './AppBar.module.css';
 import { useAtomValue, useSetAtom } from 'jotai';
 import { loadState, menuShowSettings, saveState, showOpenDialog } from '../../state';
 import SettingsIcon from '@mui/icons-material/Settings';
-import { IconButton, Link as MUILink } from '@mui/material';
+import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
+import { Button, IconButton, Link as MUILink } from '@mui/material';
+import { isAdmin } from '../../auth/auth';
 import Suggestion from '../Suggestion/Suggestion';
 import { BusyButton } from '@genai-fi/base';
 import Logo from '../Logo/Logo';
@@ -24,6 +27,8 @@ export { LANGS } from '../../config/languages';
 export default function ApplicationBar({ showReminder, onSave }: Props) {
     const { namespace, showSettings, showSaveReminder } = useVariant();
     const { t } = useTranslation(namespace);
+    const navigate = useNavigate();
+    const admin = isAdmin();
     const saving = useAtomValue(saveState);
     const saveButtonRef = useRef(null);
     const [reminder, setReminder] = useState(true);
@@ -92,6 +97,17 @@ export default function ApplicationBar({ showReminder, onSave }: Props) {
                         ns="image_adv"
                     />
                 </div>
+                {admin && (
+                    <Button
+                        color="inherit"
+                        variant="outlined"
+                        startIcon={<AdminPanelSettingsIcon />}
+                        onClick={() => navigate('/settings')}
+                        sx={{ textTransform: 'none', mr: 1, fontWeight: 600 }}
+                    >
+                        Admin
+                    </Button>
+                )}
                 <LogoutButton className={style.logoutButton} />
                 {showSettings && (
                     <IconButton

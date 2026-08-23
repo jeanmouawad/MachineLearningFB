@@ -1,19 +1,24 @@
 import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
 import style from './style.module.css';
 import Model from './Model';
 import { useState } from 'react';
 import { Button, Checkbox, FormControlLabel } from '@mui/material';
 import MenuBookIcon from '@mui/icons-material/MenuBook';
+import SettingsIcon from '@mui/icons-material/Settings';
 import { theme } from '../../theme/theme';
 import { ThemeProvider } from '@mui/material/styles';
 import RecordVoiceOverIcon from '@mui/icons-material/RecordVoiceOver';
 import Logo from '../../components/Logo/Logo';
 import LogoutButton from '../../components/LogoutButton/LogoutButton';
 import AppLanguageSelect from '../../components/LanguageSelect/AppLanguageSelect';
+import { isAdmin } from '../../auth/auth';
 
 export default function Home() {
     const { t } = useTranslation('image_adv');
+    const navigate = useNavigate();
     const [usb, setUsb] = useState(false);
+    const admin = isAdmin();
 
     const hasSerial = 'serial' in navigator;
 
@@ -21,6 +26,17 @@ export default function Home() {
         <ThemeProvider theme={theme}>
             <main className={style.homeContainer}>
                 <div className={style.topBar}>
+                    {admin && (
+                        <Button
+                            variant="outlined"
+                            color="primary"
+                            startIcon={<SettingsIcon />}
+                            className={style.lessonsButton}
+                            onClick={() => navigate('/settings')}
+                        >
+                            {t('app.settings')}
+                        </Button>
+                    )}
                     <Button
                         variant="outlined"
                         color="primary"

@@ -81,9 +81,86 @@ function mediapipeHandsPlugin(): Plugin {
     };
 }
 
+function authApiPlugin(): Plugin {
+    const maxBytes = 200_000;
+    return {
+        name: 'auth-api',
+        configureServer(server) {
+            server.middlewares.use((req, res, next) => {
+                const url = req.url || '';
+                const pathname = url.split('?')[0];
+                if (pathname.startsWith('/api/data')) {
+                    res.statusCode = 404;
+                    res.end('');
+                    return;
+                }
+                if (!pathname.startsWith('/api/')) {
+                    return next();
+                }
+
+                const chunks: Buffer[] = [];
+                let size = 0;
+                let tooLarge = false;
+                req.on('data', (chunk: Buffer) => {
+                    size += chunk.length;
+                    if (size > maxBytes) {
+                        tooLarge = true;
+                        res.statusCode = 413;
+                        res.end(JSON.stringify({ error: 'Request too large.' }));
+                        req.destroy();
+                    } else {
+                        chunks.push(Buffer.from(chunk));
+                    }
+                });
+                req.on('end', async () => {
+                    if (tooLarge || res.writableEnded) {
+                        return;
+                    }
+                    const { handleAuthRequest } = await import('./server/httpApi.mjs');
+                    let body: unknown = {};
+                    if (chunks.length) {
+                        try {
+                            body = JSON.parse(Buffer.concat(chunks).toString('utf8') || '{}');
+                        } catch {
+                            res.statusCode = 400;
+                            res.setHeader('Content-Type', 'application/json');
+                            res.end(JSON.stringify({ error: 'Invalid request.' }));
+                            return;
+                        }
+                    }
+                    const result = handleAuthRequest({
+                        method: req.method || 'GET',
+                        path: url,
+                        body,
+                        cookieHeader: String(req.headers.cookie || ''),
+                        ip: req.socket.remoteAddress || 'local',
+                        secure: false,
+                    });
+                    res.statusCode = result.status;
+                    res.setHeader('Content-Type', 'application/json');
+                    res.setHeader('Cache-Control', 'no-store');
+                    if (result.setCookie) {
+                        res.setHeader('Set-Cookie', result.setCookie);
+                    }
+                    res.end(JSON.stringify(result.json));
+                });
+            });
+        },
+        closeBundle() {
+            const destDir = path.resolve(__dirname, 'dist/api/data');
+            fs.mkdirSync(destDir, { recursive: true });
+            const seed = path.resolve(__dirname, 'data/users.json');
+            if (fs.existsSync(seed)) {
+                fs.copyFileSync(seed, path.join(destDir, 'users.json'));
+            }
+            fs.writeFileSync(path.join(destDir, '.htaccess'), 'Require all denied\n');
+        },
+    };
+}
+
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => ({
-    plugins: [react(), mediapipeHandsPlugin()],
+    plugins: [react(), mediapipeHandsPlugin(), authApiPlugin()],
     optimizeDeps: {
         esbuildOptions: {
             plugins: [
@@ -101,6 +178,7 @@ export default defineConfig(({ mode }) => ({
         },
     },
     build: {
+        sourcemap: false,
         rollupOptions: {
             output: {
                 inlineDynamicImports: mode === 'robot',

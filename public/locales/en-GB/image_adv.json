@@ -21,7 +21,8 @@
         "loginBrandCopy": "A no-code AI machine learning classroom tool. Train simple image, pose, gesture, and speech classifiers in the browser — your samples stay on this device unless you choose to share them.",
         "preparedFor": "Prepared for",
         "lessons": "Lessons",
-        "comingSoon": "Coming soon"
+        "comingSoon": "Coming soon",
+        "settings": "Settings"
     },
     "load": {
         "title": "Open Classifier",

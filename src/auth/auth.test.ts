@@ -1,7 +1,6 @@
 import { describe, it, expect, beforeEach } from 'vitest';
-import { isAuthenticated, login, logout, validateCredentials } from './auth';
+import { isAdmin, isAuthenticated, getAuthSession } from './auth';
 import { clearLoginAttempts, isLoginThrottled, recordFailedLogin } from './loginThrottle';
-import { AUTH_SESSION_KEY } from './config';
 
 describe('auth', () => {
     beforeEach(() => {
@@ -10,19 +9,8 @@ describe('auth', () => {
 
     it('starts unauthenticated', () => {
         expect(isAuthenticated()).toBe(false);
-    });
-
-    it('login and logout toggle session flag', () => {
-        login();
-        expect(sessionStorage.getItem(AUTH_SESSION_KEY)).toBe('true');
-        expect(isAuthenticated()).toBe(true);
-        logout();
-        expect(isAuthenticated()).toBe(false);
-    });
-
-    it('validates credentials case-insensitively for username', () => {
-        expect(validateCredentials('Demo', 'CODE', 'demo', 'CODE')).toBe(true);
-        expect(validateCredentials('demo', 'wrong', 'demo', 'CODE')).toBe(false);
+        expect(isAdmin()).toBe(false);
+        expect(getAuthSession()).toBeNull();
     });
 });
 

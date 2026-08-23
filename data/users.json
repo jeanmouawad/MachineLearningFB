@@ -1,0 +1,34 @@
+{
+  "version": 3,
+  "updatedAt": "2026-08-23T00:00:00.000Z",
+  "users": [
+    {
+      "id": "seed-demo",
+      "username": "Demo",
+      "password": {
+        "algo": "pbkdf2-sha256",
+        "iterations": 210000,
+        "salt": "9kP46td9KGUjeTusgfRJng",
+        "hash": "TwdmIapBD6dY1vbDf_ewyO2Wlu36OsL0Pm_GMLFU6Xg"
+      },
+      "role": "user",
+      "active": true,
+      "createdAt": "2026-08-23T00:00:00.000Z",
+      "updatedAt": "2026-08-23T00:00:00.000Z"
+    },
+    {
+      "id": "seed-admin",
+      "username": "jeanmouawad",
+      "password": {
+        "algo": "pbkdf2-sha256",
+        "iterations": 210000,
+        "salt": "rtMt2nMLNqch3TpqTZdV2w",
+        "hash": "8iQMFCOjm33NBJNLM_9Bsoqal_Id8PGE85TO-b1jXTA"
+      },
+      "role": "admin",
+      "active": true,
+      "createdAt": "2026-08-23T00:00:00.000Z",
+      "updatedAt": "2026-08-23T00:00:00.000Z"
+    }
+  ]
+}

@@ -8,8 +8,7 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
 import VisibilityOffOutlinedIcon from '@mui/icons-material/VisibilityOffOutlined';
 import { theme } from '../../theme/theme';
-import { DEMO_ACCESS_CODE, DEMO_USERNAME, hasDemoCredentialsConfigured } from '../../auth/config';
-import { isAuthenticated, login, validateCredentials } from '../../auth/auth';
+import { useAuth } from '../../auth/AuthProvider';
 import { clearLoginAttempts, isLoginThrottled, recordFailedLogin } from '../../auth/loginThrottle';
 import Logo from '../../components/Logo/Logo';
 import style from './style.module.css';
@@ -37,8 +36,14 @@ export default function Login() {
     const [accessCode, setAccessCode] = useState('');
     const [showCode, setShowCode] = useState(false);
     const [error, setError] = useState('');
+    const [submitting, setSubmitting] = useState(false);
+    const { ready, user, login } = useAuth();
 
-    if (isAuthenticated()) {
+    if (!ready) {
+        return <div />;
+    }
+
+    if (user) {
         return (
             <Navigate
                 to={from}
@@ -47,29 +52,30 @@ export default function Login() {
         );
     }
 
-    const handleSubmit = (event: FormEvent) => {
+    const handleSubmit = async (event: FormEvent) => {
         event.preventDefault();
         setError('');
-
-        if (!hasDemoCredentialsConfigured()) {
-            setError('Sign-in is not configured for this deployment.');
-            return;
-        }
 
         if (isLoginThrottled()) {
             setError('Too many failed attempts. Wait a few minutes and try again.');
             return;
         }
 
-        if (!validateCredentials(username, accessCode, DEMO_USERNAME, DEMO_ACCESS_CODE)) {
-            recordFailedLogin();
-            setError('Invalid username or access code. Please try again.');
-            return;
+        setSubmitting(true);
+        try {
+            await login(username, accessCode);
+            clearLoginAttempts();
+            navigate(from, { replace: true });
+        } catch (err) {
+            if (err instanceof Error && err.message.includes('Too many')) {
+                setError(err.message);
+            } else {
+                recordFailedLogin();
+                setError('Invalid username or access code. Please try again.');
+            }
+        } finally {
+            setSubmitting(false);
         }
-
-        clearLoginAttempts();
-        login();
-        navigate(from, { replace: true });
     };
 
     return (
@@ -181,6 +187,7 @@ export default function Login() {
                                 color="primary"
                                 size="large"
                                 fullWidth
+                                disabled={submitting}
                                 className={style.submit}
                                 sx={{
                                     textTransform: 'none',
@@ -196,7 +203,7 @@ export default function Login() {
                                     },
                                 }}
                             >
-                                Sign in
+                                {submitting ? 'Signing in…' : 'Sign in'}
                             </Button>
                         </form>
                     </div>

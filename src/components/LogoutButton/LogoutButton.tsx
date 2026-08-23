@@ -2,7 +2,7 @@ import { useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button, IconButton, ButtonProps } from '@mui/material';
 import LogoutIcon from '@mui/icons-material/Logout';
-import { logout } from '../../auth/auth';
+import { useAuth } from '../../auth/AuthProvider';
 
 interface Props {
     variant?: 'icon' | 'button';
@@ -12,11 +12,12 @@ interface Props {
 
 export default function LogoutButton({ variant = 'button', className, color = 'inherit' }: Props) {
     const navigate = useNavigate();
+    const { logout } = useAuth();
 
-    const doLogout = useCallback(() => {
-        logout();
+    const doLogout = useCallback(async () => {
+        await logout();
         navigate('/login', { replace: true });
-    }, [navigate]);
+    }, [logout, navigate]);
 
     if (variant === 'icon') {
         return (

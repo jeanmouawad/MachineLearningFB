@@ -1,0 +1,147 @@
+.page {
+    min-height: 100vh;
+    background:
+        radial-gradient(circle at 12% 0%, rgba(241, 142, 30, 0.12), transparent 36%),
+        linear-gradient(180deg, #f4fbfb 0%, #ffffff 48%, #ffffff 100%);
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    color: #14383c;
+}
+
+.topBar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 0.85rem 1.25rem;
+    background: #ffffff;
+    border-bottom: 1px solid #d7e6e8;
+    position: sticky;
+    top: 0;
+    z-index: 5;
+}
+
+.topBarLeft,
+.topBarRight {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.brand {
+    display: flex;
+    flex-direction: column;
+    gap: 0.1rem;
+}
+
+.eyebrow {
+    margin: 0;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #01717a;
+}
+
+.title {
+    margin: 0;
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: #015a61;
+}
+
+.signedIn {
+    margin: 0;
+    color: #35585c;
+    font-size: 0.92rem;
+}
+
+.content {
+    max-width: 1120px;
+    margin: 0 auto;
+    padding: 1.5rem 1.25rem 3rem;
+}
+
+.panel {
+    background: #ffffff;
+    border: 1px solid #d7e6e8;
+    border-radius: 16px;
+    padding: 1.25rem;
+    box-shadow: 0 10px 30px rgba(1, 113, 122, 0.06);
+}
+
+.toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.search {
+    flex: 1 1 240px;
+    min-width: 200px;
+}
+
+.notice,
+.success,
+.warning {
+    margin: 0 0 1rem;
+    padding: 0.85rem 1rem;
+    border-radius: 12px;
+    font-size: 0.92rem;
+    line-height: 1.5;
+}
+
+.notice {
+    background: #e6f4f5;
+    color: #35585c;
+}
+
+.success {
+    background: #e8f7ee;
+    color: #0d5c2e;
+}
+
+.warning {
+    background: #fff4e5;
+    color: #8a4b00;
+}
+
+.tableWrap {
+    overflow: auto;
+    border: 1px solid #d7e6e8;
+    border-radius: 12px;
+}
+
+.actions {
+    display: flex;
+    gap: 0.35rem;
+    justify-content: flex-end;
+}
+
+.generatedWrap {
+    margin-top: 1.25rem;
+}
+
+.generatedTable {
+    max-height: 280px;
+    overflow: auto;
+    border: 1px solid #d7e6e8;
+    border-radius: 12px;
+}
+
+.securityForm {
+    display: grid;
+    gap: 1rem;
+    max-width: 440px;
+}
+
+@media (max-width: 720px) {
+    .topBar {
+        flex-wrap: wrap;
+    }
+
+    .content {
+        padding: 1rem 0.75rem 2rem;
+    }
+}

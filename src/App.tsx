@@ -17,6 +17,9 @@ import About from './views/About/About';
 import Home from './views/Home/Home';
 import Login from './views/Login/Login';
 import AuthGuard from './components/AuthGuard/AuthGuard';
+import AdminGuard from './components/AdminGuard/AdminGuard';
+import AdminSettings from './views/AdminSettings/AdminSettings';
+import { AuthProvider } from './auth/AuthProvider';
 
 function ErrorComponent() {
     const error = useRouteError();
@@ -52,19 +55,19 @@ export const routes = createRoutesFromElements(
             path="login"
             element={<Login />}
         />
-        <Route
-            path="deploy/p/:code"
-            lazy={() => import('./views/Deployment/PeerDeployment')}
-        />
-        <Route
-            path="collect/:code/:classIndex"
-            lazy={() => import('./views/Collection/Collection')}
-        />
-        <Route
-            path="input/:code"
-            lazy={() => import('./views/Input/Input')}
-        />
         <Route element={<AuthGuard />}>
+            <Route
+                path="deploy/p/:code"
+                lazy={() => import('./views/Deployment/PeerDeployment')}
+            />
+            <Route
+                path="collect/:code/:classIndex"
+                lazy={() => import('./views/Collection/Collection')}
+            />
+            <Route
+                path="input/:code"
+                lazy={() => import('./views/Input/Input')}
+            />
             <Route
                 index
                 element={
@@ -82,6 +85,12 @@ export const routes = createRoutesFromElements(
                 path="home"
                 element={<Home />}
             />
+            <Route element={<AdminGuard />}>
+                <Route
+                    path="settings"
+                    element={<AdminSettings />}
+                />
+            </Route>
             <Route
                 path=":kind/:variant"
                 lazy={() => import('./views/General/General')}
@@ -98,13 +107,15 @@ interface Props {
 function App({ router }: Props) {
     return (
         <React.Suspense fallback={<div></div>}>
-            <Provider>
-                <DndProvider backend={HTML5Backend}>
-                    <StyledEngineProvider injectFirst>
-                        <RouterProvider router={router || defaultRouter} />
-                    </StyledEngineProvider>
-                </DndProvider>
-            </Provider>
+            <AuthProvider>
+                <Provider>
+                    <DndProvider backend={HTML5Backend}>
+                        <StyledEngineProvider injectFirst>
+                            <RouterProvider router={router || defaultRouter} />
+                        </StyledEngineProvider>
+                    </DndProvider>
+                </Provider>
+            </AuthProvider>
         </React.Suspense>
     );
 }
